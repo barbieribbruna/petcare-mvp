@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% from "_componentes.html" import campo, selecao, area_texto %}
+{% block titulo %}Registrar saúde — {{ pet.nome }}{% endblock %}
+{% block conteudo %}
+<h1>Registrar saúde — {{ pet.nome }}</h1>
+<form method="post" action="{{ url_for('pets.novo_registro', id_pet=pet.id_pet) }}" novalidate>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  {% set opcoes = [("", "Selecione o tipo")] + rotulos_tipo.items() | list %}
+  {{ selecao("tipo", "Tipo", erros, opcoes, dados.tipo, obrigatorio=true) }}
+  {{ campo("descricao", "Descrição", erros, dados.descricao, obrigatorio=true, maxlength=200) }}
+  {{ campo("data_registro", "Data", erros, dados.data_registro, tipo="date", obrigatorio=true) }}
+  {{ campo("proxima_data", "Próxima data", erros, dados.proxima_data, tipo="date") }}
+  <fieldset>
+    <legend>Se for medicamento</legend>
+    <p class="dica">Preencha apenas quando o tipo for Medicamento. Nos demais tipos, estes campos são ignorados.</p>
+    {{ campo("dosagem", "Dosagem", erros, dados.dosagem, maxlength=80) }}
+    {{ campo("horario", "Horário", erros, dados.horario, tipo="time") }}
+    {{ campo("data_fim", "Data de término", erros, dados.data_fim, tipo="date") }}
+  </fieldset>
+  {{ area_texto("observacoes", "Observações", erros, dados.observacoes, maxlength=1000) }}
+  <div class="acoes">
+    <button type="submit" class="botao botao-primario">Salvar</button>
+    <a class="botao botao-secundario" href="{{ url_for('pets.historico', id_pet=pet.id_pet) }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}
