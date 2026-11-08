@@ -5,22 +5,8 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
-from app import create_app
 from app.persistence.database import db_session
 from app.persistence.models import Pet, RegistroSaude, Usuario
-
-
-@pytest.fixture
-def app():
-    app = create_app(
-        {
-            "TESTING": True,
-            "SECRET_KEY": "chave-de-teste",
-            "DATABASE_URL": "sqlite:///:memory:",
-        }
-    )
-    with app.app_context():
-        yield app
 
 
 def novo_usuario(email="ana@exemplo.com"):
