@@ -2,5 +2,23 @@
 {% block titulo %}Meus pets{% endblock %}
 {% block conteudo %}
 <h1>Meus pets</h1>
+<div class="acoes acoes-topo">
+  <a class="botao botao-primario" href="{{ url_for('pets.novo') }}">Cadastrar pet</a>
+</div>
+{% if pets %}
+<ul class="lista-cartoes">
+  {% for pet in pets %}
+  <li class="cartao">
+    <h2>{{ pet.nome }}</h2>
+    <p>{{ pet.especie }}{% if pet.raca %} · {{ pet.raca }}{% endif %}</p>
+    <div class="acoes">
+      <a class="botao botao-primario" href="/pets/{{ pet.id_pet }}/registros/novo">Registrar saúde<span class="visualmente-oculto"> de {{ pet.nome }}</span></a>
+      <a class="botao botao-secundario" href="/pets/{{ pet.id_pet }}/historico">Ver histórico<span class="visualmente-oculto"> de {{ pet.nome }}</span></a>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
 <p>Você ainda não cadastrou pets.</p>
+{% endif %}
 {% endblock %}

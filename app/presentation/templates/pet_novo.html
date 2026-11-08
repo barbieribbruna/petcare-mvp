@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from "_componentes.html" import campo %}
+{% block titulo %}Cadastrar pet{% endblock %}
+{% block conteudo %}
+<h1>Cadastrar pet</h1>
+<form method="post" action="{{ url_for('pets.novo') }}" novalidate>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  {{ campo("nome", "Nome", erros, dados.nome, obrigatorio=true, maxlength=80) }}
+  {{ campo("especie", "Espécie", erros, dados.especie, obrigatorio=true, maxlength=40, dica="Exemplo: Cão, Gato.") }}
+  {{ campo("raca", "Raça", erros, dados.raca, maxlength=80) }}
+  {{ campo("data_nascimento", "Data de nascimento", erros, dados.data_nascimento, tipo="date") }}
+  <div class="acoes">
+    <button type="submit" class="botao botao-primario">Salvar</button>
+    <a class="botao botao-secundario" href="{{ url_for('pets.listar') }}">Cancelar</a>
+  </div>
+</form>
+{% endblock %}

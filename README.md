@@ -13,7 +13,7 @@ Em desenvolvimento. O andamento de cada requisito está no quadro abaixo.
 | Código | Descrição | Prioridade | Status |
 |---|---|---|---|
 | RF01 | Autenticação de usuário | Obrigatório | Implementado e testado (pytest) |
-| RF02 | Cadastro de pets | Obrigatório | Planejado |
+| RF02 | Cadastro de pets | Obrigatório | Implementado e testado (pytest) |
 | RF03 | Registro de saúde | Obrigatório | Planejado |
 | RF04 | Histórico de saúde | Desejável | Planejado |
 

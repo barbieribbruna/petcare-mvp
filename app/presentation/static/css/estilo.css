@@ -266,6 +266,48 @@ legend {
   border-color: var(--acao-escura);
 }
 
+.acoes-topo {
+  margin: 0 0 1.5rem;
+}
+
+/* Cartões */
+.lista-cartoes {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cartao {
+  min-width: 0;
+  padding: 1rem;
+  background: var(--superficie);
+  border: 1px solid var(--borda-cartao);
+  border-radius: 8px;
+}
+
+.cartao p {
+  margin: 0.25rem 0 0;
+}
+
+.cartao .acoes {
+  margin-top: 1rem;
+}
+
+/* Texto lido por leitores de tela, mas oculto visualmente. */
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 @media (min-width: 40rem) {
   .conteudo {
     padding: 2rem 1.5rem 3rem;
