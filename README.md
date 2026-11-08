@@ -14,7 +14,7 @@ Em desenvolvimento. O andamento de cada requisito está no quadro abaixo.
 |---|---|---|---|
 | RF01 | Autenticação de usuário | Obrigatório | Implementado e testado (pytest) |
 | RF02 | Cadastro de pets | Obrigatório | Implementado e testado (pytest) |
-| RF03 | Registro de saúde | Obrigatório | Planejado |
+| RF03 | Registro de saúde | Obrigatório | Implementado e testado (pytest) |
 | RF04 | Histórico de saúde | Desejável | Planejado |
 
 Requisitos não funcionais: segurança e privacidade (RNF01, RNF02), desempenho e portabilidade (RNF03) e acessibilidade (RNF04).

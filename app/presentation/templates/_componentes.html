@@ -35,3 +35,27 @@
   {{ erro_campo(nome, erros) }}
 </div>
 {%- endmacro %}
+
+{% macro selecao(nome, texto, erros, opcoes, selecionado="", obrigatorio=false) -%}
+<div class="campo">
+  {{ rotulo(nome, texto, obrigatorio) }}
+  <select id="{{ nome }}" name="{{ nome }}"
+    {%- if obrigatorio %} required{% endif %}
+    {{- atributos_aria(nome, erros) }}>
+    {% for valor, legenda in opcoes %}
+    <option value="{{ valor }}"{% if valor == selecionado %} selected{% endif %}>{{ legenda }}</option>
+    {% endfor %}
+  </select>
+  {{ erro_campo(nome, erros) }}
+</div>
+{%- endmacro %}
+
+{% macro area_texto(nome, texto, erros, valor="", maxlength=none) -%}
+<div class="campo">
+  {{ rotulo(nome, texto) }}
+  <textarea id="{{ nome }}" name="{{ nome }}" rows="4"
+    {%- if maxlength %} maxlength="{{ maxlength }}"{% endif %}
+    {{- atributos_aria(nome, erros) }}>{{ valor or '' }}</textarea>
+  {{ erro_campo(nome, erros) }}
+</div>
+{%- endmacro %}
