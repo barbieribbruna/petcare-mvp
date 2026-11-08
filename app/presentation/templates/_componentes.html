@@ -8,6 +8,24 @@
 <svg class="icone" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>
 {%- endmacro %}
 
+{% macro icone_tipo(tipo) -%}
+<svg class="icone" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+{%- if tipo == "vacina" -%}
+<path d="M18 2l4 4"/><path d="M20 4l-4 4"/><path d="M17 7l-9.5 9.5-3 .5.5-3L14.5 4.5z"/><path d="M11 8l2 2"/><path d="M8 11l2 2"/><path d="M5 19l-3 3"/>
+{%- elif tipo == "consulta" -%}
+<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2"/><path d="M12 9v6"/><path d="M9 12h6"/>
+{%- elif tipo == "medicamento" -%}
+<rect x="2.5" y="8.5" width="19" height="7" rx="3.5" transform="rotate(-45 12 12)"/><path d="M9.5 9.5l5 5"/>
+{%- else -%}
+<path d="M9 2h6"/><path d="M10 2v14a2 2 0 0 0 4 0V2"/><path d="M10 10h4"/>
+{%- endif -%}
+</svg>
+{%- endmacro %}
+
+{% macro selo(tipo, rotulos) -%}
+<span class="selo selo-{{ tipo }}">{{ icone_tipo(tipo) }}<span>{{ rotulos[tipo] }}</span></span>
+{%- endmacro %}
+
 {% macro erro_campo(nome, erros) -%}
 {% if erros.get(nome) %}<p class="erro-campo" id="erro-{{ nome }}" role="alert">{{ icone_erro() }}<span>{{ erros[nome] }}</span></p>{% endif %}
 {%- endmacro %}

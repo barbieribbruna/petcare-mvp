@@ -74,7 +74,28 @@ def novo_registro(id_pet):
             erros = erro.erros
         else:
             flash("Registro salvo com sucesso", "sucesso")
-            return redirect(f"/pets/{pet.id_pet}/historico")
+            return redirect(url_for("pets.historico", id_pet=pet.id_pet))
     return render_template(
         "registro_novo.html", pet=pet, erros=erros, dados=dados, rotulos_tipo=ROTULOS_TIPO
     )
+
+
+@bp.get("/pets/<int:id_pet>/historico")
+@login_required
+def historico(id_pet):
+    pet = _pet_ou_404(id_pet)
+    tipo = servico_registros.normalizar_tipo(request.args.get("tipo"))
+    registros = servico_registros.listar_registros(g.usuario.id_usuario, id_pet, tipo)
+    return render_template(
+        "historico.html",
+        pet=pet,
+        registros=registros,
+        tipo=tipo or "",
+        rotulos_tipo=ROTULOS_TIPO,
+    )
+
+
+@bp.app_template_filter("data_br")
+def data_br(valor):
+    """Formata uma data como DD/MM/AAAA."""
+    return valor.strftime("%d/%m/%Y") if valor else ""

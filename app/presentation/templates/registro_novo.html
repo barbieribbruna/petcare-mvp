@@ -20,7 +20,7 @@
   {{ area_texto("observacoes", "Observações", erros, dados.observacoes, maxlength=1000) }}
   <div class="acoes">
     <button type="submit" class="botao botao-primario">Salvar</button>
-    <a class="botao botao-secundario" href="/pets/{{ pet.id_pet }}/historico">Cancelar</a>
+    <a class="botao botao-secundario" href="{{ url_for('pets.historico', id_pet=pet.id_pet) }}">Cancelar</a>
   </div>
 </form>
 {% endblock %}

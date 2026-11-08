@@ -1,6 +1,8 @@
-"""Regras de negócio dos registros de saúde (RF03). Todo acesso passa pelo pet do tutor."""
+"""Regras de negócio dos registros de saúde (RF03, RF04). Todo acesso passa pelo pet do tutor."""
 import re
 from datetime import time
+
+from sqlalchemy import select
 
 from app.persistence.database import db_session
 from app.persistence.models import TIPOS_REGISTRO, RegistroSaude
@@ -98,3 +100,22 @@ def criar_registro(id_usuario, id_pet, dados):
     db_session.add(registro)
     db_session.commit()
     return registro
+
+
+def normalizar_tipo(tipo):
+    """Devolve o tipo se for válido; caso contrário, None (equivale a "todos")."""
+    tipo = texto(tipo)
+    return tipo if tipo in TIPOS_REGISTRO else None
+
+
+def listar_registros(id_usuario, id_pet, tipo=None):
+    """Registros do pet do tutor, do mais recente ao mais antigo, opcionalmente filtrados por tipo."""
+    pet = _pet_do_tutor(id_usuario, id_pet)
+    consulta = select(RegistroSaude).where(RegistroSaude.id_pet == pet.id_pet)
+    tipo = normalizar_tipo(tipo)
+    if tipo:
+        consulta = consulta.where(RegistroSaude.tipo == tipo)
+    consulta = consulta.order_by(
+        RegistroSaude.data_registro.desc(), RegistroSaude.id_registro.desc()
+    )
+    return list(db_session.scalars(consulta))

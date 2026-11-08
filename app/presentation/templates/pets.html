@@ -12,8 +12,8 @@
     <h2>{{ pet.nome }}</h2>
     <p>{{ pet.especie }}{% if pet.raca %} · {{ pet.raca }}{% endif %}</p>
     <div class="acoes">
-      <a class="botao botao-primario" href="/pets/{{ pet.id_pet }}/registros/novo">Registrar saúde<span class="visualmente-oculto"> de {{ pet.nome }}</span></a>
-      <a class="botao botao-secundario" href="/pets/{{ pet.id_pet }}/historico">Ver histórico<span class="visualmente-oculto"> de {{ pet.nome }}</span></a>
+      <a class="botao botao-primario" href="{{ url_for('pets.novo_registro', id_pet=pet.id_pet) }}">Registrar saúde<span class="visualmente-oculto"> de {{ pet.nome }}</span></a>
+      <a class="botao botao-secundario" href="{{ url_for('pets.historico', id_pet=pet.id_pet) }}">Ver histórico<span class="visualmente-oculto"> de {{ pet.nome }}</span></a>
     </div>
   </li>
   {% endfor %}

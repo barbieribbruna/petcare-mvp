@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% from "_componentes.html" import selecao, selo %}
+{% block titulo %}Histórico de saúde — {{ pet.nome }}{% endblock %}
+{% block conteudo %}
+<h1>Histórico de saúde — {{ pet.nome }}</h1>
+<div class="acoes acoes-topo">
+  <a class="botao botao-primario" href="{{ url_for('pets.novo_registro', id_pet=pet.id_pet) }}">Registrar saúde</a>
+  <a class="botao botao-secundario" href="{{ url_for('pets.listar') }}">Voltar para Meus pets</a>
+</div>
+
+<form class="filtro" method="get" action="{{ url_for('pets.historico', id_pet=pet.id_pet) }}" aria-label="Filtrar registros por tipo">
+  {% set opcoes = [("", "Todos")] + rotulos_tipo.items() | list %}
+  {{ selecao("tipo", "Tipo", {}, opcoes, tipo) }}
+  <button type="submit" class="botao botao-secundario">Filtrar</button>
+</form>
+
+{% if registros %}
+<p>{{ registros | length }} {{ "registro" if registros | length == 1 else "registros" }}, do mais recente ao mais antigo</p>
+<ul class="lista-cartoes">
+  {% for registro in registros %}
+  <li class="cartao">
+    <div class="cartao-topo">
+      {{ selo(registro.tipo, rotulos_tipo) }}
+      <time datetime="{{ registro.data_registro.isoformat() }}">{{ registro.data_registro | data_br }}</time>
+    </div>
+    <h2>{{ registro.descricao }}</h2>
+    <dl class="detalhes">
+      {% if registro.proxima_data %}
+      <div><dt>Próxima data</dt><dd><time datetime="{{ registro.proxima_data.isoformat() }}">{{ registro.proxima_data | data_br }}</time></dd></div>
+      {% endif %}
+      {% if registro.dosagem %}
+      <div><dt>Dosagem</dt><dd>{{ registro.dosagem }}</dd></div>
+      {% endif %}
+      {% if registro.horario %}
+      <div><dt>Horário</dt><dd>{{ registro.horario.strftime("%H:%M") }}</dd></div>
+      {% endif %}
+      {% if registro.data_fim %}
+      <div><dt>Data de término</dt><dd><time datetime="{{ registro.data_fim.isoformat() }}">{{ registro.data_fim | data_br }}</time></dd></div>
+      {% endif %}
+      {% if registro.observacoes %}
+      <div><dt>Observações</dt><dd class="observacoes">{{ registro.observacoes }}</dd></div>
+      {% endif %}
+    </dl>
+  </li>
+  {% endfor %}
+</ul>
+{% elif tipo %}
+<p>Nenhum registro do tipo {{ rotulos_tipo[tipo] }}.</p>
+{% else %}
+<p>Nenhum registro de saúde ainda.</p>
+{% endif %}
+{% endblock %}

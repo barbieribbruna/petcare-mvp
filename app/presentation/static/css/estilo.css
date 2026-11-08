@@ -295,6 +295,86 @@ legend {
   margin-top: 1rem;
 }
 
+.cartao-topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Filtro do histórico */
+.filtro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.filtro .campo {
+  flex: 1 1 12rem;
+  margin-bottom: 0;
+}
+
+/* Selos dos tipos de registro: ícone + texto, nunca só cor. */
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+}
+
+.selo .icone {
+  margin-top: 0;
+}
+
+.selo-vacina {
+  color: #0F6E64;
+  background: #E6F2F0;
+}
+
+.selo-consulta {
+  color: #1A4FA0;
+  background: #E8EEF9;
+}
+
+.selo-medicamento {
+  color: #7A3E00;
+  background: #FBEFE3;
+}
+
+.selo-exame {
+  color: #5B2C83;
+  background: #F1EAF7;
+}
+
+/* Detalhes do registro */
+.detalhes {
+  margin: 0.75rem 0 0;
+}
+
+.detalhes div {
+  margin-top: 0.5rem;
+}
+
+.detalhes dt {
+  font-weight: 600;
+}
+
+.detalhes dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.observacoes {
+  white-space: pre-line;
+}
+
 /* Texto lido por leitores de tela, mas oculto visualmente. */
 .visualmente-oculto {
   position: absolute;
