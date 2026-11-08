@@ -2,6 +2,7 @@
 from flask import Flask
 
 from app.config import Config
+from app.persistence import models  # noqa: F401  (registra os modelos no metadata)
 from app.persistence.database import Base, db_session, init_db
 
 
