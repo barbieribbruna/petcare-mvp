@@ -1,0 +1,32 @@
+{% from "_componentes.html" import icone_sucesso -%}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}{% endblock %} · PetCare</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-interno">
+      <a class="marca" href="{{ url_for('auth.inicio') }}">PetCare</a>
+      {% if g.usuario %}
+      <div class="conta">
+        <span class="saudacao">Olá, {{ g.usuario.nome }}</span>
+        <form method="post" action="{{ url_for('auth.sair') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit" class="botao botao-secundario">Sair</button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </header>
+  <main class="conteudo">
+    {% for mensagem in get_flashed_messages() %}
+    <p class="mensagem-sucesso" role="status">{{ icone_sucesso() }}<span>{{ mensagem }}</span></p>
+    {% endfor %}
+    {% block conteudo %}{% endblock %}
+  </main>
+</body>
+</html>

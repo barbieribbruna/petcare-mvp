@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from "_componentes.html" import icone_erro, rotulo %}
+{% block titulo %}Entrar{% endblock %}
+{% block conteudo %}
+<h1>Entrar</h1>
+{% if erro %}
+<p class="erro-formulario" id="erro-login" role="alert">{{ icone_erro() }}<span>{{ erro }}</span></p>
+{% endif %}
+<form method="post" action="{{ url_for('auth.entrar') }}" novalidate>
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <div class="campo">
+    {{ rotulo("email", "E-mail", true) }}
+    <input id="email" name="email" type="email" value="{{ email }}" required autocomplete="email" maxlength="254"
+      {%- if erro %} aria-invalid="true" aria-describedby="erro-login"{% endif %}>
+  </div>
+  <div class="campo">
+    {{ rotulo("senha", "Senha", true) }}
+    <input id="senha" name="senha" type="password" required autocomplete="current-password" maxlength="128"
+      aria-describedby="{% if erro %}erro-login {% endif %}aviso-bloqueio"
+      {%- if erro %} aria-invalid="true"{% endif %}>
+  </div>
+  <p class="dica" id="aviso-bloqueio">Após 5 tentativas inválidas, o acesso é bloqueado por 15 minutos.</p>
+  <div class="acoes">
+    <button type="submit" class="botao botao-primario">Entrar</button>
+    <a class="botao botao-secundario" href="{{ url_for('auth.cadastro') }}">Criar conta</a>
+  </div>
+</form>
+{% endblock %}

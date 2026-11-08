@@ -1,0 +1,37 @@
+{# Componentes reutilizáveis dos formulários e mensagens. #}
+
+{% macro icone_erro() -%}
+<svg class="icone" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 7v6"/><path d="M12 17h.01"/></svg>
+{%- endmacro %}
+
+{% macro icone_sucesso() -%}
+<svg class="icone" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>
+{%- endmacro %}
+
+{% macro erro_campo(nome, erros) -%}
+{% if erros.get(nome) %}<p class="erro-campo" id="erro-{{ nome }}" role="alert">{{ icone_erro() }}<span>{{ erros[nome] }}</span></p>{% endif %}
+{%- endmacro %}
+
+{% macro atributos_aria(nome, erros, dica=none) -%}
+{% set ids = [] %}
+{%- if dica %}{% set _ = ids.append("dica-" ~ nome) %}{% endif %}
+{%- if erros.get(nome) %}{% set _ = ids.append("erro-" ~ nome) %} aria-invalid="true"{% endif %}
+{%- if ids %} aria-describedby="{{ ids | join(' ') }}"{% endif %}
+{%- endmacro %}
+
+{% macro rotulo(nome, texto, obrigatorio=false) -%}
+<label for="{{ nome }}">{{ texto }}{% if obrigatorio %} (obrigatório){% endif %}</label>
+{%- endmacro %}
+
+{% macro campo(nome, texto, erros, valor="", tipo="text", obrigatorio=false, autocomplete=none, maxlength=none, dica=none) -%}
+<div class="campo">
+  {{ rotulo(nome, texto, obrigatorio) }}
+  {% if dica %}<p class="dica" id="dica-{{ nome }}">{{ dica }}</p>{% endif %}
+  <input id="{{ nome }}" name="{{ nome }}" type="{{ tipo }}" value="{{ valor or '' }}"
+    {%- if obrigatorio %} required{% endif %}
+    {%- if autocomplete %} autocomplete="{{ autocomplete }}"{% endif %}
+    {%- if maxlength %} maxlength="{{ maxlength }}"{% endif %}
+    {{- atributos_aria(nome, erros, dica) }}>
+  {{ erro_campo(nome, erros) }}
+</div>
+{%- endmacro %}

@@ -6,13 +6,13 @@ Projeto individual da disciplina Projeto de Software (ADS).
 
 ## Status
 
-Em desenvolvimento. Nenhum requisito está concluído até o momento.
+Em desenvolvimento. O andamento de cada requisito está no quadro abaixo.
 
 ## Requisitos
 
 | Código | Descrição | Prioridade | Status |
 |---|---|---|---|
-| RF01 | Autenticação de usuário | Obrigatório | Planejado |
+| RF01 | Autenticação de usuário | Obrigatório | Implementado e testado (pytest) |
 | RF02 | Cadastro de pets | Obrigatório | Planejado |
 | RF03 | Registro de saúde | Obrigatório | Planejado |
 | RF04 | Histórico de saúde | Desejável | Planejado |
@@ -29,7 +29,37 @@ Integração com clínicas, notificações automáticas e inteligência artifici
 
 ## Como executar
 
-Será documentado após a implementação do RF01.
+Passos para Windows PowerShell, na raiz do repositório:
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+
+# Chave da sessão: use um valor longo e aleatório, por exemplo o gerado por
+# python -c "import secrets; print(secrets.token_urlsafe(32))"
+$env:PETCARE_SECRET_KEY = "cole-aqui-a-chave-gerada"
+
+# Apenas para teste local por http (sem HTTPS). Não use em produção.
+$env:PETCARE_COOKIE_SECURE = "0"
+
+python run.py
+```
+
+Depois, acesse http://127.0.0.1:5000 no navegador.
+
+Para rodar os testes automatizados:
+
+```powershell
+python -m pytest -v
+```
+
+## Limitações conhecidas
+
+- O bloqueio após 5 tentativas de login inválidas é guardado em memória: zera ao reiniciar o servidor e não vale entre processos.
+- O SQLite é adequado apenas ao volume de dados do MVP.
+- HTTPS não está configurado no ambiente local.
+- Desempenho (RNF03) e acessibilidade (RNF04) ainda não foram medidos nem testados com usuários.
 
 ## Fluxo de trabalho
 
