@@ -4,6 +4,7 @@ import re
 import pytest
 
 from app import create_app
+from app.persistence.database import db_session
 from app.services import auth
 
 PADRAO_TOKEN = re.compile(r'name="csrf_token" value="([^"]+)"')
@@ -22,6 +23,8 @@ def app():
     )
     with app.app_context():
         yield app
+        db_session.remove()
+        db_session.get_bind().dispose()
 
 
 @pytest.fixture(autouse=True)
