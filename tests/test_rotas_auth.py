@@ -2,7 +2,7 @@
 import re
 
 from app.presentation.seguranca import POLITICA_CSP
-from app.services import auth
+from app.services import auth, pets
 
 EMAIL = "tutora@exemplo.com"
 SENHA = "senha-segura-123"
@@ -65,7 +65,7 @@ def test_login_correto_acessa_pets(navegador):
     resposta = navegador.cliente.get("/pets")
     pagina = resposta.get_data(as_text=True)
     assert resposta.status_code == 200
-    assert "Olá, Tutora Exemplo" in pagina
+    assert "Bem-vindo(a)" in pagina
     assert "<h1>Meus pets</h1>" in pagina
     assert "Você ainda não cadastrou pets." in pagina
     assert resposta.headers["Cache-Control"] == "no-store"
@@ -113,8 +113,19 @@ def test_respostas_trazem_cabecalhos_de_seguranca(navegador):
     assert resposta.headers["Referrer-Policy"] == "same-origin"
 
 
+def test_cabecalho_mostra_saudacao_neutra_sem_o_nome(navegador):
+    cadastrar_tutora(nome="Tutora do Bento")
+    navegador.entrar(EMAIL, SENHA)
+
+    pagina = navegador.cliente.get("/pets").get_data(as_text=True)
+    assert "Bem-vindo(a)" in pagina
+    assert "Olá," not in pagina
+    assert "Tutora do Bento" not in pagina
+
+
 def test_html_escapa_nome_com_script(navegador):
-    cadastrar_tutora(nome="<script>alert('x')</script>")
+    usuario = cadastrar_tutora()
+    pets.criar_pet(usuario.id_usuario, "<script>alert('x')</script>", "Cão", "", "")
     navegador.entrar(EMAIL, SENHA)
 
     pagina = navegador.cliente.get("/pets").get_data(as_text=True)

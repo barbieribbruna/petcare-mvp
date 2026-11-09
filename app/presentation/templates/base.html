@@ -13,7 +13,7 @@
       <a class="marca" href="{{ url_for('auth.inicio') }}">PetCare</a>
       {% if g.usuario %}
       <div class="conta">
-        <span class="saudacao">Olá, {{ g.usuario.nome }}</span>
+        <span class="saudacao">Bem-vindo(a)</span>
         <form method="post" action="{{ url_for('auth.sair') }}">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
           <button type="submit" class="botao botao-secundario">Sair</button>
