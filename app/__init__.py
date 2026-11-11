@@ -6,6 +6,7 @@ from app.persistence import models  # noqa: F401  (registra os modelos no metada
 from app.persistence.database import Base, db_session, init_db
 from app.presentation.rotas_auth import bp as bp_auth
 from app.presentation.rotas_pets import bp as bp_pets
+from app.presentation.rotas_saude import bp as bp_saude
 from app.presentation.seguranca import registrar_seguranca
 
 
@@ -32,5 +33,6 @@ def create_app(test_config=None):
     registrar_seguranca(app)
     app.register_blueprint(bp_auth)
     app.register_blueprint(bp_pets)
+    app.register_blueprint(bp_saude)
 
     return app

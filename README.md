@@ -21,7 +21,7 @@ Requisitos não funcionais: segurança e privacidade (RNF01, RNF02), desempenho 
 
 ## Tecnologias
 
-Python 3.12, Flask 3.1, SQLAlchemy 2.0 e SQLite, em arquitetura monolítica de três camadas (apresentação, regras de negócio e persistência).
+Python 3.13, Flask 3.1, SQLAlchemy 2.0 e SQLite, em arquitetura monolítica de três camadas (apresentação, regras de negócio e persistência).
 
 ## Fora do escopo do MVP
 
@@ -54,10 +54,20 @@ Para rodar os testes automatizados:
 python -m pytest -v
 ```
 
+## Publicação (deploy)
+
+- Comando de build: `pip install -r requirements.txt`
+- Comando de início: `gunicorn run:app`
+- Variáveis de ambiente:
+  - `PETCARE_SECRET_KEY`: obrigatória; use um valor aleatório e secreto (por exemplo, gerado com `python -c "import secrets; print(secrets.token_urlsafe(32))"`) e nunca o grave no repositório.
+  - `PETCARE_COOKIE_SECURE`: opcional; o padrão é `1`, que é o correto quando o serviço é acessado por HTTPS.
+- Monitoramento: a rota `GET /saude` responde `200` com `{"status": "ok"}` quando o app e o banco estão disponíveis, e `503` com `{"status": "erro"}` quando a consulta ao banco falha.
+
 ## Limitações conhecidas
 
 - O bloqueio após 5 tentativas de login inválidas é guardado em memória: zera ao reiniciar o servidor e não vale entre processos.
 - O SQLite é adequado apenas ao volume de dados do MVP.
+- No plano gratuito do Render, o disco é descartável: o banco SQLite é recriado (vazio) quando o serviço reinicia.
 - HTTPS não está configurado no ambiente local.
 - Desempenho (RNF03) e acessibilidade (RNF04) ainda não foram medidos nem testados com usuários.
 
